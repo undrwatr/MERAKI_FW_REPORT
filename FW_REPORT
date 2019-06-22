@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+import requests
+import sys
+import cred
+
+key = cred.key
+
+#Main URL for the Meraki Platform
+dashboard = "https://dashboard.meraki.com"
+#api token and other data that needs to be uploaded in the header
+headers = {'X-Cisco-Meraki-API-Key': (key), 'Content-Type': 'application/json'}
+
+get_rules_url = dashboard + '/api/v0/networks/(network_id)/l3FirewallRules' 
+
+get_rules_data = requests.get(get_rules_url, headers=headers)
+
+print("Current Rules from West Jefferson")
+
+ 
+#pprint(get_rules_data.json())
+download_data = get_rules_data.json()
+
+for data in download_data:    
+    print((data["comment"]) + ", Policy=" + (data["policy"]) + ", Proto=" + (data["protocol"]) + ", Src IP=" + (data["srcCidr"]) + ", Src Port=" + (data["srcPort"]) + ", Dest IP=" + (data["destCidr"]) + ", Dest Port=" + (data["destPort"]))
+    
